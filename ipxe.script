@@ -1,0 +1,121 @@
+#!ipxe
+
+:start
+menu iPXE Boot Options
+item shell iPXE shell
+item linux-net1 Centos7 OS installation
+item linux-net2 Centos8 OS installation
+item linux-net3 Centos9 OS installation
+item linux-net4 redhat9 OS installation
+item linux-net5 ubuntuDeskop22.04 OS installation
+item linux-net6 ubuntuServer22.04 OS installation
+item linux-net7 Critix8.2.1 OS installation
+item linux-net8 SUSE15_SP4 OS installation
+item exit  Exit to BIOS
+choose --default linux-net --timeout 80000 option && goto ${option}
+#==========================================================================================================================#
+:shell
+shell
+:linux-net1
+set server_root http://192.168.3.1
+initrd ${server_root}/Centos7/images/pxeboot/initrd.img
+kernel ${server_root}/Centos7/images/pxeboot/vmlinuz inst.repo=${server_root}/Centos7/ initrd=initrd.img
+boot
+:exit
+exit
+#==========================================================================================================================#
+:shell
+shell
+#/var/www/html/Cento8
+:linux-net2
+set server_root http://192.168.3.1
+#initrd ${server_root}/Centos8/images/pxeboot/initrd.img
+kernel ${server_root}/Centos8/images/pxeboot/vmlinuz inst.repo=${server_root}/Centos8/ initrd=initrd.img
+initrd ${server_root}/Centos8/images/pxeboot/initrd.img
+boot
+:exit
+exit
+#==========================================================================================================================#
+:shell
+shell
+#/var/www/html/Cento8
+:linux-net3
+set server_root http://192.168.3.1
+#initrd ${server_root}/Centos8/images/pxeboot/initrd.img
+kernel ${server_root}/Centos9/images/pxeboot/vmlinuz inst.repo=${server_root}/Centos9/ initrd=initrd.img
+initrd ${server_root}/Centos9/images/pxeboot/initrd.img
+boot
+:exit
+exit
+
+#==========================================================================================================================#
+:shell
+shell
+#/var/www/html/Redhat9
+#/var/www/html/Redhat9
+#/var/www/html/Redhat9/images/pxeboot
+:linux-net4
+set server_root http://192.168.3.1
+#initrd ${server_root}/Centos8/images/pxeboot/initrd.img
+kernel ${server_root}/Redhat9/images/pxeboot/vmlinuz inst.repo=${server_root}/Redhat9/ initrd=initrd.img
+initrd ${server_root}/Redhat9/images/pxeboot/initrd.img
+boot
+:exit
+exit
+#==========================================================================================================================#
+:shell
+shell
+#/var/www/html/ubuntu22.04
+#desktop
+#ubuntu-22.04-desktop-amd64.iso
+#ubuntu22.04/casper
+
+:linux-net5
+set server_root http://192.168.3.1
+kernel ${server_root}/ubuntu22.04/casper/vmlinuz 
+initrd ${server_root}/ubuntu22.04/casper/initrd
+imgargs vmlinuz initrd=initrd root=/dev/ram0 ramdisk_size=3800000 ip=dhcp url=http://192.168.3.1/ubuntu-22.04-desktop-amd64.iso
+#locale=en_US.UTF-8 ro
+boot
+
+#==========================================================================================================================#
+:shell
+shell
+#/var/www/html/ubuntu22.04
+#Server
+#/var/www/html/ubuntuServer22.04
+#ubuntu-22.04-live-server-amd64.iso
+
+:linux-net6
+set server_root http://192.168.3.1
+kernel ${server_root}/ubuntuServer22.04/casper/vmlinuz 
+initrd ${server_root}/ubuntuServer22.04/casper/initrd
+imgargs vmlinuz initrd=initrd root=/dev/ram0 ramdisk_size=1600000 ip=dhcp url=http://192.168.3.1/ubuntu-22.04-live-server-amd64.iso
+#locale=en_US.UTF-8 ro
+boot
+
+#==========================================================================================================================#
+#/var/www/html/Critix8.2.1/boot
+:shell
+shell
+:linux-net7
+set server_root http://192.168.3.1
+#initrd ${server_root}/Critix8.2.1/boot/xen.gz
+#kernel ${server_root}/Critix8.2.1/boot/vmlinuz inst.repo=${server_root}/Critix8.2.1/ initrd=xen.gz
+kernel ${server_root}/Critix8.2.1/boot/xen.gz  dom0_mem=1024M, max:1024M watchdog dom0_max_vcpus=4 com1=115200, 8n1 console=com1,vga
+initrd ${server_root}/Critix8.2.1/boot/vmlinuz console=hvc0
+initrd ${server_root}/Critix8.2.1/install.img
+boot
+#===================================================================================================================#
+:shell
+shell
+#/var/www/html/SUSE15_SP4/boot/x86_64/loader
+#SLE-15-SP4-Full-x86_64-GM-Media1.iso
+:linux-net8
+set server_root http://192.168.3.1
+#initrd ${server_root}/SUSE15_SP4/boot/x86_64/loader/initrd 
+kernel ${server_root}/SUSE15_SP4/boot/x86_64/loader/linux
+initrd ${server_root}/SUSE15_SP4/boot/x86_64/loader/initrd
+imgargs linux initrd=initrd root=/dev/ram0 ramdisk_size=9000000 ip=dhcp url=http://192.168.3.1/SLE-15-SP4-Full-x86_64-GM-Media1.iso
+boot
+
